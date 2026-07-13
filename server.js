@@ -192,10 +192,7 @@ ${bodyHtml}
 // Instead of asking postgres to do more math
 
 function dateKey(d) {
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return d.toLocaleDateString('en-CA', {timeZone: TIMEZONE});
 }
 
 function summarise(rows) {
@@ -227,7 +224,7 @@ app.get('/', async (req, res) => {
                 <div class="history-item">
                     <span>${d.amount_ml} ml</span>
                     <span>
-                        <span class="muted">${new Date(d.logged_at).toLocaleString([], {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</span>
+                        <span class="muted">${new Date(d.logged_at).toLocaleString([], {timeZone: TIMEZONE, month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</span>
                         <a href="/delete/${d.id}" class="delete-link" title="Delete this entry">✕</a>
                     </span>
                 </div>`).join('')
@@ -245,7 +242,7 @@ app.get('/', async (req, res) => {
         const barsHtml = last7DayKeys.map(key => {
             const total = totalsByDay[key] || 0;
             const h = total > 0 ? Math.max(4, Math.round((total / maxDay) * 80)): 0;
-            const label = new Date(key).toLocaleDateString([], {weekday: 'short'});
+            const label = new Date(key).toLocaleDateString([], {timeZone: 'BST', weekday: 'short'});
             return `<div style="display:flex;flex-direction:column;flex:1;">
                 <div class="bar" style="height:80px;">
                     <div class="bar-fill" style="height:${h}px;"></div>
