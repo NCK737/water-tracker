@@ -55,6 +55,8 @@ async function fetchRecentRows() {
 //----- Daily Goal -----
 const DAILY_GOAL_ML = 2000;
 
+const TIMEZONE = 'Europe/London';
+
 app.use(express.json()); // app.use() registers middleware - code that runs on every incoming request before reaching route handlers.
 app.use(express.urlencoded({extended: true}));
 
